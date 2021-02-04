@@ -1,0 +1,23 @@
+{
+  "nodeUrl": "http://51.116.168.38:3000",
+  "marketDataUrl": "https://min-api.cryptocompare.com/",
+  "pagination": {
+    "pageSize": 25
+  },
+  "testAccount": {
+    "address": "TBTXB6AKHT3S3O6SPDNL3VXI6XJVNXOJZGP2SAQ"
+  },
+  "testMosaic": {
+    "mosaicId": "4131C5FD69F7A75C"
+  },
+  "testNamespace": {
+    "rootNamespace": "lared",
+    "subNamespace": "lared.moneda"
+  },
+  "testBlock": {
+    "height": 1
+  },
+  "testTransactions": {
+    "transferTransactionHash": "DBBCD72693BEFABECA2EA18AE1469E520FE9C95262E33213A77D36F925FB3962"
+  }
+}
