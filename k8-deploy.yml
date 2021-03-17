@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: explorer-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: explorer
+    spec:
+      containers:
+      - name: gcr-explorer
+        image: superhow/gcr-explorer:dev-latest
+        ports:
+        - containerPort: 80
