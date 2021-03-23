@@ -70,12 +70,12 @@
 				]
 			},
 			{
-				"layoutOptions": "adaptive",
+				"layoutOptions": "full-width",
 				"type": "CardTable",
 				"title": "ownedNamespacesTitle",
 				"managerGetter": "account/OwnedNamespace",
-				"pagination": "client",
-				"pageSize": 5,
+				"pagination": "server",
+				"pageSize": 10,
 				"hideOnError": true,
 				"hideDependOnGetter": "account/info",
 				"fields": [
@@ -83,23 +83,6 @@
 					"status",
 					"expirationDuration",
 					"registrationType"
-				]
-			},
-			{
-				"layoutOptions": "adaptive",
-				"type": "CardTable",
-				"title": "supplementalKeysTitle",
-				"managerGetter": "account/info",
-				"dataGetter": "account/getSupplementalPublicKeys",
-				"pagination": "client",
-				"pageSize": 5,
-				"hideOnError": true,
-				"hideDependOnGetter": "account/info",
-				"fields": [
-					"linked",
-					"node",
-					"vrf",
-					"voting"
 				]
 			},
 			{
@@ -113,17 +96,36 @@
 				"hideDependOnGetter": "account/info",
 				"onRowClickKey": "transactionHash",
 				"fields": [
-					"deadline",
+					"date",
+					"blockHeight",
 					"direction",
 					"transactionType",
 					"transactionHash",
-					"recipient"
+					"recipient",
+					"extendGraphicValue"
 				],
 				"mobileFields": [
-					"deadline",
+					"date",
 					"direction",
 					"transactionType",
 					"transactionHash"
+				]
+			},
+			{
+				"layoutOptions": "full-width",
+				"type": "CardTable",
+				"title": "supplementalKeysTitle",
+				"managerGetter": "account/info",
+				"dataGetter": "account/getSupplementalPublicKeys",
+				"pagination": "client",
+				"pageSize": 5,
+				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
+				"fields": [
+					"linked",
+					"node",
+					"vrf",
+					"voting"
 				]
 			},
 			{

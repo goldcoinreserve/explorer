@@ -19,20 +19,24 @@
 <template>
 	<b-container fluid class="px-0 py-0">
 		<b-row class="my-4 mx-0 mx-xs-0 mx-md-4 mx-lg-8">
-			<b-col xs="12" md="12" lg="5">
-				<RecentBlocksWidget />
+			<!-- <b-col xs="12" md="12" lg="9" style="display: flex">
+				<PriceChartWidget style="width: 100%"/>
+			</b-col> -->
+			<b-col xs="12" md="12" lg="12" style="display: flex">
+				<BaseInfoWidget style="width: 100%"/>
 			</b-col>
-			<b-col xs="12" md="12" lg="5">
-				<RecentTransactionsWidget />
+			<b-col xs="12" md="12" lg="6" style="display: flex">
+				<RecentBlocksWidget style="width: 100%"/>
 			</b-col>
-			<b-col xs="12" md="12" lg="2" style="display: flex">
-				<BaseInfoWidget style="width: 100%" />
+			<b-col xs="12" md="12" lg="6" style="display: flex">
+				<RecentTransactionsWidget style="width: 100%"/>
 			</b-col>
 		</b-row>
 	</b-container>
 </template>
 <script>
 import BaseInfoWidget from '@/components/widgets/BaseInfoWidget.vue';
+// import PriceChartWidget from '@/components/widgets/PriceChartWidget.vue';
 import RecentBlocksWidget from '@/components/widgets/RecentBlocksWidget.vue';
 import RecentTransactionsWidget from '@/components/widgets/RecentTransactionsWidget.vue';
 
@@ -40,9 +44,10 @@ export default {
 	name: 'Home',
 
 	components: {
+		BaseInfoWidget,
+		// PriceChartWidget,
 		RecentBlocksWidget,
-		RecentTransactionsWidget,
-		BaseInfoWidget
+		RecentTransactionsWidget
 	},
 
 	mounted() {

@@ -33,6 +33,10 @@ export default {
 		minZoom: {
 			type: Number,
 			default: 1
+		},
+
+		showPopup: {
+			type: Boolean
 		}
 	},
 
@@ -145,6 +149,7 @@ export default {
 			const iconApiVoting = getIcon(IconOrange);
 
 			const markerClusters = leaflet.markerClusterGroup({
+				// iconCreateFunction: this.createClusterGroup,
 				maxClusterRadius: 30
 			});
 
@@ -179,8 +184,10 @@ export default {
 						break;
 					}
 
-					const m = leaflet.marker([node.coordinates.latitude, node.coordinates.longitude], { icon })
-						.bindPopup(popup);
+					const m = leaflet.marker([node.coordinates.latitude, node.coordinates.longitude], { icon });
+
+					if (this.showPopup === true)
+						m.bindPopup(popup);
 
 					markerClusters.addLayer(m);
 				}
@@ -189,11 +196,40 @@ export default {
 			this.map.addLayer(markerClusters);
 		},
 
+		createClusterGroup(cluster) {
+			const count = cluster.getChildCount();
+
+			let size = 'medium';
+
+			if (count < 5)
+				size = 'xs';
+
+			else if (count < 10)
+				size = 's';
+
+			else if (count < 20)
+				size = 'm';
+
+			else if (count < 40)
+				size = 'l';
+
+			else if (count < 80)
+				size = 'xl';
+
+			else if (count >= 80)
+				size = 'xxl';
+
+			return leaflet.divIcon({
+				html: count,
+				className: `marker-cluster-${size}`// 'marker-cluster-base'
+			});
+		},
+
 		formatText(value) {
 			return typeof value === 'string'
 				? (
 					value.length > 30
-						? (value.slice(0, 15) + '...' + value.slice(value.length - 14, value.length - 1))
+						? (value.slice(0, 15) + '...' + value.slice(value.length - 14, value.length))
 						: value
 				)
 				: 'n/a';

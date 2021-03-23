@@ -18,18 +18,11 @@
 
 <template>
 	<div class="extendGraphicValueContainer">
-
-		<span
-			v-if="hasNativeMosaic"
-			:title="nativeMosaic + ' ' + networkCurrency"
-		>
-			<Decimal :value="nativeMosaic" class="decimal"/> {{ networkCurrency }}
-		</span>
-
 		<span
 			v-if="hasMessage"
 			:title="getTranslation('message') + ': ' + message">
 			<MessageCircle
+				style="width: 16px; height: 16px"
 				:message="message"
 			/>
 		</span>
@@ -38,9 +31,19 @@
 			v-if="hasMosaics"
 			:title="getTranslation('mosaics')">
 			<MosaicsCircle
+				style="width: 16px; height: 16px"
 				id="target"
 				:mosaics="[]"
 			/>
+		</span>
+
+		<span
+			v-if="hasNativeMosaic"
+			:title="nativeMosaic + ' ' + networkCurrency"
+			:class="amountClass"
+			style="display: flex"
+		>
+			<Decimal :value="nativeMosaic" class="decimal"/> {{ networkCurrencySub }}
 		</span>
 	</div>
 </template>
@@ -64,70 +67,80 @@ export default {
 
 	props: {
 		value: {
-			type: Array,
+			type: Object,
 			required: true,
-			default: () => []
+			default: () => ({})
+		},
+		transactionType: {
+			type: String
 		}
 	},
 
 	computed: {
 		hasNativeMosaic() {
-			for (const item of this.value) {
-				if (Object.keys(item).includes('nativeMosaic'))
-					return item.nativeMosaic !== 'N/A';
-			}
+			if (this.value.nativeMosaic)
+				return this.value.nativeMosaic !== 'N/A';
+
 			return false;
 		},
 		hasMessage() {
-			for (const item of this.value) {
-				if (Object.keys(item).includes('message'))
-					return typeof item.message.payload === 'string' && item.message.payload.length > 0;
-			}
+			if (this.value.message)
+				return typeof this.value.message.payload === 'string' && this.value.message.payload.length > 0;
+
 			return false;
 		},
 
 		hasMosaics() {
-			for (const item of this.value) {
-				if (Object.keys(item).includes('mosaics'))
-					return Array.isArray(item.mosaics) && item.mosaics.length > 0;
-			}
+			if (this.value.mosaics)
+				return Array.isArray(this.value.mosaics) && this.value.mosaics.length > 0;
+
 			return false;
 		},
 
 		nativeMosaic() {
-			for (const item of this.value) {
-				if (Object.keys(item).includes('nativeMosaic')) {
-					const amount = item.nativeMosaic.replace(/,/g, '');
+			if (this.value.nativeMosaic) {
+				const amount = this.value.nativeMosaic.replace(/,/g, '');
 
-					if (Number.isInteger(Number(amount)))
-						return Number(amount).toLocaleString('en-US');
-					return item.nativeMosaic;
-				}
+				if (Number.isInteger(Number(amount)))
+					return Number(amount).toLocaleString('en-US');
+				return this.value.nativeMosaic;
 			}
 
 			return '';
 		},
 
 		message() {
-			for (const item of this.value) {
-				if (Object.keys(item).includes('message'))
-					return item.message;
+			return this.value.message || '';
+		},
+
+		mosaics() {
+			return this.value.mosaics || [];
+		},
+
+		networkCurrency() {
+			return http.networkCurrency.namespaceName;
+		},
+
+		networkCurrencySub() {
+			// eslint-disable-next-line no-constant-condition
+			if (
+				typeof http.networkCurrency.namespaceName === 'string' &&
+				http.networkCurrency.namespaceName.length > 0
+			) {
+				const namespaceLevels = http.networkCurrency.namespaceName.split('.');
+
+				return ' ' + namespaceLevels.pop()?.toUpperCase();
 			}
 
 			return '';
 		},
 
-		mosaic() {
-			for (const item of this.value) {
-				if (Object.keys(item).includes('mosaics'))
-					return item.mosaics;
-			}
-
-			return [];
-		},
-
-		networkCurrency() {
-			return http.networkCurrency.namespaceName;
+		amountClass() {
+			if (typeof this.transactionType === 'string' && this.transactionType.includes('incoming'))
+				return 'incoming';
+			if (typeof this.transactionType === 'string' && this.transactionType.includes('outgoing'))
+				return 'outgoing';
+			return '';
 		}
 	}
 
@@ -137,5 +150,13 @@ export default {
 <style lang="scss" scoped>
 .extendGraphicValueContainer {
     display: inline-flex;
+}
+
+.incoming {
+    color: $green-color;
+}
+
+.outgoing {
+    color: $red-color;
 }
 </style>

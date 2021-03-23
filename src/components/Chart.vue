@@ -44,8 +44,25 @@ export default {
 		colors: {
 			type: Array,
 
-			default: () => ['#020f45', '#f2e013', '#f29913']
+			default: () => [
+				'#020f45',
+				'#ff9600',
+				'#00c8ff',
+				'#33dd50',
+				'#ff00ff',
 
+				'#5200c6',
+				'#bf360c',
+				'#5d4037',
+				'#616161',
+				'#78909c'
+			]
+
+		},
+
+		colorIndex: {
+			type: Number,
+			default: -1
 		},
 
 		toolbar: {
@@ -61,12 +78,28 @@ export default {
 		strokeCurve: {
 			type: String,
 			default: 'smooth'
+		},
+
+		intXaxis: {
+			type: Boolean,
+			default: false
+		},
+
+		intYaxis: {
+			type: Boolean,
+			default: false
 		}
 	},
 
 	data() {
 		return {
-			options: {
+
+		};
+	},
+
+	computed: {
+		options() {
+			return {
 				chart: {
 					foreColor: '#999',
 					toolbar: {
@@ -93,7 +126,7 @@ export default {
 				dataLabels: {
 					enabled: false
 				},
-				colors: this.colors,
+				colors: this.extractedColors,
 				fill: {
 					gradient: {
 						enabled: true,
@@ -110,6 +143,12 @@ export default {
 						wick: {
 							useFillColor: true
 						}
+					},
+					bar: {
+						horizontal: true,
+						dataLabels: {
+							position: 'top'
+						}
 					}
 				},
 				title: {
@@ -120,7 +159,16 @@ export default {
 					axisBorder: {
 						show: false,
 						color: '#0998a6'
-					}
+					},
+					labels: this.intXaxis
+						? {
+							formatter: function (val) {
+								return typeof val.toFixed === 'function'
+									? val.toFixed(0)
+									: val;
+							}
+						}
+						: {}
 				},
 				yaxis: {
 					tooltip: {
@@ -129,7 +177,16 @@ export default {
 					axisBorder: {
 						show: false,
 						color: '#0998a6'
-					}
+					},
+					labels: this.intYaxis
+						? {
+							formatter: function (val) {
+								return typeof val.toFixed === 'function'
+									? val.toFixed(0)
+									: val;
+							}
+						}
+						: {}
 				},
 				tooltip: {
 					enabled: true
@@ -141,16 +198,19 @@ export default {
 					showForZeroSeries: true,
 					position: 'bottom',
 					horizontalAlign: 'center',
-					height: 30,
 					offsetY: 8
 				}
-			}
-		};
-	},
+			};
+		},
 
-	computed: {
 		series() {
 			return this.data;
+		},
+
+		extractedColors() {
+			return this.colorIndex !== -1
+				? [this.colors[this.colorIndex]]
+				: this.colors;
 		}
 	}
 

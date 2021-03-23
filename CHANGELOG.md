@@ -3,6 +3,76 @@ All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v1.0.0][v1.0.0] - 15-Mar-2021
+
+### Milestone: [catapult-server@v1.0.0.0][catapult-server@v1.0.0.0]
+
+Package  | Version  | Link
+---|---|---
+REST Core| v2.3.4 | [catapult-rest][catapult-rest@v2.3.4]
+SDK Core| v1.0.0 | [symbol-sdk][symbol-sdk@v1.0.0]
+
+- Symbol mainnet launch release
+- Updated T&C and Privacy Policy
+- Added recipient and amount columns to the account transaction list [#826](https://github.com/nemgrouplimited/symbol-explorer/issues/826)
+
+## [v0.10.0][v0.10.0] - 12-Mar-2021
+
+### Milestone: [catapult-server@v0.10.0.8][catapult-server@v0.10.0.8]
+
+Package  | Version  | Link
+---|---|---
+REST Core| v2.3.3 | [catapult-rest][catapult-rest@v2.3.3]
+SDK Core| v0.23.3 | [symbol-sdk][symbol-sdk@v0.23.3]
+
+### Added
+- Added compatibility for 0.10.0.8 server.
+- Added Testnet theme [#819](https://github.com/nemgrouplimited/symbol-explorer/pull/819)
+- Added the Privacy Policy link [#819](https://github.com/nemgrouplimited/symbol-explorer/pull/819)
+
+### Fixed
+- UI home page issues [#795](https://github.com/nemgrouplimited/symbol-explorer/issues/795)
+- Node Rewards Widget. Handle the no rounds state [#796](https://github.com/nemgrouplimited/symbol-explorer/issues/796)
+- Transaction Graphic and Transaction Detail. The mosaic preview bug [#798](https://github.com/nemgrouplimited/symbol-explorer/issues/798)
+- Transaction List. Native mosaic shown as custom mosaic [#800](https://github.com/nemgrouplimited/symbol-explorer/issues/800)
+- No different separators under Reported Balance (Node Rewards Program Range display)  [#802](https://github.com/nemgrouplimited/symbol-explorer/issues/802)
+- Detail display "Host Location" is not displayed correctly. The last character of the address is also missing.  [#803](https://github.com/nemgrouplimited/symbol-explorer/issues/803)
+- In explorer, not all valid namespaces are displayed in the details view. [#804](https://github.com/nemgrouplimited/symbol-explorer/issues/804)
+- Account Details. Invalid address display [#807](https://github.com/nemgrouplimited/symbol-explorer/issues/807)
+- Transaction icons are different from those used in wallets [#810](https://github.com/nemgrouplimited/symbol-explorer/issues/810)
+- Fetch node rewards data directly from the controller. Use main public key [#815](https://github.com/nemgrouplimited/symbol-explorer/issues/815)
+
+
+## [v0.9.0][v0.9.0] - 25-Feb-2021
+
+### Milestone: [catapult-server@v0.10.0.7][catapult-server@v0.10.0.7]
+
+Package  | Version  | Link
+---|---|---
+REST Core| v2.3.3 | [catapult-rest][catapult-rest@v2.3.3]
+SDK Core| v0.23.3-alpha| [symbol-sdk][symbol-sdk@v0.23.3-alpha]
+
+### Added
+- Added compatibility for 0.10.0.7 server.
+- Added add two column bar graphs of node heights [#755](https://github.com/nemgrouplimited/symbol-explorer/issues/755)
+- Node list and statistics enhancement [#777](https://github.com/nemgrouplimited/symbol-explorer/pull/777)
+- Added Node Reward Section [#791](https://github.com/nemgrouplimited/symbol-explorer/pull/791)
+
+
+### Fixed
+- Chart: Change window of block time differences [#759](https://github.com/nemgrouplimited/symbol-explorer/issues/759)
+- Display comfirmation date and block height in transaction list.[#765](https://github.com/nemgrouplimited/symbol-explorer/issues/765)
+- Read native namespace from config [#769](https://github.com/nemgrouplimited/symbol-explorer/issues/769)
+- I can't see a transactionInfo by explorer [#775](https://github.com/nemgrouplimited/symbol-explorer/issues/775)
+- If namespaces consist of only one letter or number, they will not be displayed correctly. [#779](https://github.com/nemgrouplimited/symbol-explorer/issues/779)
+- Some headers don't look nice when cut off [#741](https://github.com/nemgrouplimited/symbol-explorer/issues/741)
+- Mark clearly expired mosaics [#785](https://github.com/nemgrouplimited/symbol-explorer/issues/785)
+- Get nodePublicKey for NR [#786](https://github.com/nemgrouplimited/symbol-explorer/issues/786)
+- NR widget. Handle missing test results [#787](https://github.com/nemgrouplimited/symbol-explorer/issues/787)
+- Fix node version output [#788](https://github.com/nemgrouplimited/symbol-explorer/issues/788)
+- VotingPayouts [#790](https://github.com/nemgrouplimited/symbol-explorer/issues/790)
+
+
 ## [v0.8.0][v0.8.0] - 16-Jan-2021
 
 ### Milestone: [catapult-server@v0.10.0.5][catapult-server@v0.10.0.5]
@@ -246,7 +316,20 @@ SDK Core| v0.20.7 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
 [v0.7.0]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.7.0
 [v0.7.1]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.7.1
 [v0.8.0]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.8.0
+[v0.9.0]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.9.0
+[v0.10.0]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.10.0
+[v1.0.0]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v1.0.0
 
 [catapult-server@v0.10.0.5]: https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.5
+[catapult-server@v0.10.0.7]: https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.7
+[catapult-server@v0.10.0.8]: https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.8
+[catapult-server@v1.0.0.0]: https://github.com/nemtech/catapult-server/releases/tag/v1.0.0.0
+
 [symbol-sdk@v0.23.0]: https://www.npmjs.com/package/symbol-sdk/v/0.23.0
+[symbol-sdk@v0.23.3-alpha]: https://www.npmjs.com/package/symbol-sdk/v/0.23.3-alpha-202102181227
+[symbol-sdk@v0.23.3]: https://www.npmjs.com/package/symbol-sdk/v/0.23.3
+[symbol-sdk@v1.0.0]: https://www.npmjs.com/package/symbol-sdk/v/1.0.0
+
 [catapult-rest@v2.3.0]: https://github.com/nemtech/catapult-rest/releases/tag/v2.3.0
+[catapult-rest@v2.3.3]: https://github.com/nemtech/catapult-rest/releases/tag/v2.3.3
+[catapult-rest@v2.3.4]: https://github.com/nemtech/catapult-rest/releases/tag/v2.3.4

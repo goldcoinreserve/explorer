@@ -247,7 +247,7 @@ export const metadata = [
 		}
 	},
 	{
-		label: 'Token Alias',
+    label: 'Token Alias',
 		icon: 'mdi-circle',
 		value: {
 			metadataType: MetadataType.Mosaic
@@ -264,14 +264,14 @@ export const metadata = [
 
 export const mosaicRestriction = [
 	{
-		label: 'Token Global Restriction',
+    label: 'Token Global Restriction',
 		icon: 'mdi-alert',
 		value: {
 			entryType: MosaicRestrictionEntryType.GLOBAL
 		}
 	},
 	{
-		label: 'Token Address Restriction',
+    label: 'Token Address Restriction',
 		icon: 'mdi-account',
 		value: {
 			entryType: MosaicRestrictionEntryType.ADDRESS
@@ -335,6 +335,41 @@ export const nodeRoles = [
 		value: {
 			rolesRaw: 7
 		}
+	},
+	{
+		label: 'RP - SuperNode',
+		icon: '',
+		value: {
+			rolesRaw: null,
+			rewardProgram: 'SuperNode'
+		}
+	},
+	{
+		label: 'RP - EarlyAdoption',
+		icon: '',
+		value: {
+			rolesRaw: null,
+			rewardProgram: 'EarlyAdoption'
+		}
+	},
+	{
+		label: 'RP - Ecosystem',
+		icon: '',
+		value: {
+			rolesRaw: null,
+			rewardProgram: 'Ecosystem'
+		}
+	}
+];
+
+export const payouts = [
+	{
+		label: 'rounds',
+		value: 'rounds'
+	},
+	{
+		label: 'voting',
+		value: 'voting'
 	}
 ];
 

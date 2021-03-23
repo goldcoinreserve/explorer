@@ -15,6 +15,9 @@
  * limitations under the License.
  *
  */
+import globalConfig from '../config/globalConfig';
+import Constants from '../config/constants';
+import Axios from 'axios';
 
 class StatisticService {
 	/**
@@ -25,7 +28,7 @@ class StatisticService {
 	 * @param grouping - grouping block for calculation
 	 * @returns block time difference dataset.
 	 */
-	static getBlockTimeDifferenceData = (blocks, limit, grouping) => {
+	static getBlockTimeDifferenceData = (blocks, grouping) => {
 		const heights = blocks.map(data => Number(data.height));
 
 		let timestamps = blocks.map(data => data.timestampRaw);
@@ -62,21 +65,24 @@ class StatisticService {
 			averagesDataset.push([height, average.toFixed(2) === 'NaN' ? null : average.toFixed(2)]);
 		}
 
+		const sliceTimeDifferenceDataset = timeDifferenceDataset.slice(0, timeDifferenceDataset.length - grouping);
+		const sliceAveragesDataset = averagesDataset.slice(0, averagesDataset.length - grouping);
+
 		let dataset = [
 			{
 				name: 'Time Difference (in seconds)',
-				data: timeDifferenceDataset
+				data: sliceTimeDifferenceDataset
 			},
 			{
 				name: `Average Time Difference (per ${grouping} blocks)`,
-				data: averagesDataset
+				data: sliceAveragesDataset
 			}
 		];
 
 		return {
-			limit: limit,
+			limit: sliceTimeDifferenceDataset.length + 1,
 			grouping: grouping,
-			name: `Block time differences in last ${limit} blocks`,
+			name: `Block time differences in last ${sliceTimeDifferenceDataset.length + 1} blocks`,
 			data: dataset
 		};
 	}
@@ -89,7 +95,7 @@ class StatisticService {
 	 * @param grouping - grouping block for calculation
 	 * @returns transaction data per block dataset.
 	 */
-	static getTransactionPerBlockData = (blocks, limit, grouping) => {
+	static getTransactionPerBlockData = (blocks, grouping) => {
 		const heights = blocks.map(data => Number(data.height));
 
 		let numTransactions = blocks.map(data => data.transactions);
@@ -117,23 +123,72 @@ class StatisticService {
 			averagesDataset.push([heights[i], Math.floor(averages[i])]);
 		}
 
+		const sliceNumTransactionsPerBlockDataset = numTransactionsPerBlockDataset.slice(0, numTransactionsPerBlockDataset.length - grouping);
+		const sliceAveragesDataset = averagesDataset.slice(0, averagesDataset.length - grouping);
+
 		let dataset = [
 			{
 				name: 'Number of transactions',
-				data: numTransactionsPerBlockDataset
+				data: sliceNumTransactionsPerBlockDataset
 			},
 			{
 				name: `Average number of transaction (per ${grouping} blocks)`,
-				data: averagesDataset
+				data: sliceAveragesDataset
 			}
 		];
 
 		return {
-			limit: limit,
+			limit: sliceNumTransactionsPerBlockDataset.length + 1,
 			grouping: grouping,
-			name: `Transaction per block in last ${limit} blocks`,
+			name: `Transaction per block in last ${sliceNumTransactionsPerBlockDataset.length + 1} blocks`,
 			data: dataset
 		};
+	}
+
+	static getNodeCountSeries = async () => {
+		const data = await StatisticService.fetchFromStatisticsService('/timeSeries/nodeCount');
+		const chartData = StatisticService.formatChartData(data, ['1', '2', '3', '4', '5', '6', '7', 'total']);
+
+		return chartData.map(el => ({ ...el, name: Constants.RoleType[el.name] || el.name }));
+	}
+
+	static fetchFromStatisticsService = async (route) => {
+		if (this.isUrlProvided())
+			return (await Axios.get(globalConfig.endpoints.statisticsService + route)).data;
+
+		else
+			throw Error('Statistics service endpoint is not provided');
+	}
+
+	static formatChartData = (data, includeKeys) => {
+		const aggreagatedData = {};
+		const isKeyIncluded = key => !includeKeys || includeKeys.includes(key);
+
+		let chartData = [];
+
+		data.forEach((doc) => {
+			Object.keys(doc.values).forEach((name) => {
+				if (!aggreagatedData[name] && isKeyIncluded(name)) {
+					aggreagatedData[name] = {
+						data: []
+					};
+				}
+
+				if (isKeyIncluded(name)) {
+					aggreagatedData[name].data.push({
+						x: doc.date,
+						y: doc.values[name]
+					});
+				}
+			});
+		});
+
+		chartData = Object.keys(aggreagatedData).map(name => ({
+			name,
+			data: aggreagatedData[name].data
+		}));
+
+		return chartData;
 	}
 
 	static isUrlProvided() {
