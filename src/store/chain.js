@@ -17,7 +17,7 @@
  */
 
 import Lock from './lock';
-import { NodeService, ChainService, DataService } from '../infrastructure';
+import { NodeService, ChainService } from '../infrastructure';
 import { RoleType } from 'symbol-sdk';
 
 const LOCK = Lock.create();
@@ -44,17 +44,24 @@ export default {
 			currentHeight: 0,
 			finalizedBlockHeight: 0,
 			isVotingNode: false
-		}
+		},
+		nodeStats: {},
+		loading: true
 	},
 	getters: {
 		getInitialized: state => state.initialized,
+		getLoading: state => state.loading,
 		getStorageInfo: state => state.storageInfo,
 		getMarketData: state => state.marketData,
-		getChainInfo: state => state.chainInfo
+		getChainInfo: state => state.chainInfo,
+		getNodeStats: state => state.nodeStats
 	},
 	mutations: {
 		setInitialized: (state, initialized) => {
 			state.initialized = initialized;
+		},
+		setLoading: (state, v) => {
+			state.loading = v;
 		},
 		setStorageInfo: (state, storageInfo) => {
 			state.storageInfo.numTransactions = storageInfo.numTransactions;
@@ -69,6 +76,12 @@ export default {
 			state.chainInfo.currentHeight = currentHeight;
 			state.chainInfo.finalizedBlockHeight = finalizedBlockHeight;
 			state.chainInfo.isVotingNode = isVotingNode;
+		},
+		setNodeStats: (state, nodeStats) => {
+			state.nodeStats = {
+				...nodeStats,
+				total: Array.from(Array(8).keys()).reduce((acc, val) => acc + (nodeStats[val] || 0))
+			};
 		}
 	},
 	actions: {
@@ -90,31 +103,38 @@ export default {
 
 		// Fetch data from the SDK / API and initialize the page.
 		async initializePage({ commit, dispatch }) {
-			const [storageInfo, marketData, xemGraph] = await Promise.all([
+			commit('setLoading', true);
+			const [storageInfo, /* marketData, xemGraph, */ nodeStats] = await Promise.all([
 				NodeService.getStorageInfo(),
-				DataService.getMarketPrice('XEM'),
-				DataService.getHistoricalHourlyGraph('XEM')
+				// DataService.getMarketPrice('XEM'),
+				// DataService.getHistoricalHourlyGraph('XEM'),
+				NodeService.getNodeStats().catch(() => {})
 			]);
+
+			commit('setLoading', false);
 
 			commit('setStorageInfo', storageInfo);
 			await dispatch('getChainInfo');
 
-			let graphData = [];
+			// let graphData = [];
 
-			if (xemGraph) {
-				xemGraph.Data.map((item, index) => {
-					let graphDataItem = {};
+			// if (xemGraph) {
+			// 	xemGraph.Data.map((item, index) => {
+			// 		let graphDataItem = {};
 
-					graphDataItem.y = [];
-					graphDataItem.x = new Date(item['time'] * 1000);
-					graphDataItem.y[0] = item['open']; // parseFloat(item['open']).toFixed(4)
-					graphDataItem.y[1] = item['high']; // parseFloat(item['high']).toFixed(4)
-					graphDataItem.y[2] = item['low']; // parseFloat(item['low']).toFixed(4)
-					graphDataItem.y[3] = item['close']; // parseFloat(item['close']).toFixed(4)
-					graphData.push(graphDataItem);
-				});
-			}
-			commit('setMarketData', { marketData, graphData });
+			// 		graphDataItem.y = [];
+			// 		graphDataItem.x = new Date(item['time'] * 1000);
+			// 		graphDataItem.y[0] = item['open']; // parseFloat(item['open']).toFixed(4)
+			// 		graphDataItem.y[1] = item['high']; // parseFloat(item['high']).toFixed(4)
+			// 		graphDataItem.y[2] = item['low']; // parseFloat(item['low']).toFixed(4)
+			// 		graphDataItem.y[3] = item['close']; // parseFloat(item['close']).toFixed(4)
+			// 		graphData.push(graphDataItem);
+			// 	});
+			// }
+			// commit('setMarketData', { marketData, graphData });
+
+			if (nodeStats)
+				commit('setNodeStats', nodeStats.nodeTypes);
 		},
 
 		async getChainInfo({ commit }) {

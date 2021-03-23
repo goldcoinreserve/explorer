@@ -20,16 +20,23 @@
 	<div class="row">
 		<div class="col-md-12 d-flex justify-content-center">
 			<div class="ftr_btm">
-				<span>All Rights Reserved</span>
+				<span> © {{ currentYear }}</span>
 				<span>|</span>
-				<span>
-					<a href="/terms">Terms</a> &
-					<a href="/privacy">Privacy</a>
-				</span>
+				<span>All Rights Reserved</span>
 			</div>
 		</div>
 	</div>
 </template>
+
+<script>
+export default {
+	computed: {
+		currentYear() {
+			return new Date().getFullYear();
+		}
+	}
+};
+</script>
 
 <style lang="scss" scoped>
 span {

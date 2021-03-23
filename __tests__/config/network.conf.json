@@ -1,18 +1,18 @@
 {
-  "nodeUrl": "http://51.116.168.38:3000",
+  "nodeUrl": "http://20.71.180.252:3000",
   "marketDataUrl": "https://min-api.cryptocompare.com/",
   "pagination": {
     "pageSize": 25
   },
   "testAccount": {
-    "address": "TBTXB6AKHT3S3O6SPDNL3VXI6XJVNXOJZGP2SAQ"
+    "address": "TAWKFBDQ574C6XUSKH4PHBTQY4SSE66HRHTO2QI"
   },
   "testMosaic": {
-    "mosaicId": "4131C5FD69F7A75C"
+    "mosaicId": "067FAE202D44AC71"
   },
   "testNamespace": {
-    "rootNamespace": "lared",
-    "subNamespace": "lared.moneda"
+    "rootNamespace": "gcr",
+    "subNamespace": "gcr.currency"
   },
   "testBlock": {
     "height": 1

@@ -138,7 +138,9 @@ export default {
 		getSupplementalPublicKeys: state => state.info?.data.supplementalPublicKeys || {},
 		getCurrentAccountAddress: state => state.currentAccountAddress,
 		balanceWidget: (state, getters) => ({
-			address: new Address(state.currentAccountAddress).pretty(),
+			address: Address
+				.createFromRawAddress(state.currentAccountAddress)
+				.pretty(),
 			balance: getters.OwnedMosaic?.data[0]?.amount || 0,
 			alias: getters.info?.data?.accountAliasNames /* || Constants.Message.UNAVAILABLE */
 		})
@@ -187,10 +189,10 @@ export default {
 			context.commit('setCurrentAccountAddress', payload.address);
 
 			context.getters.info.setStore(context).initialFetch(payload.address);
+			context.getters.transactions.setStore(context).initialFetch(payload.address);
 			context.getters.OwnedMosaic.setStore(context).initialFetch(payload.address);
 			context.getters.OwnedNamespace.setStore(context).initialFetch(payload.address);
 			context.getters.multisig.setStore(context).initialFetch(payload.address);
-			context.getters.transactions.setStore(context).initialFetch(payload.address);
 			context.getters.metadatas.setStore(context).initialFetch(payload.address);
 			context.getters.mosaicAddressRestrictions.setStore(context).initialFetch(payload.address);
 			context.getters.harvestedBlocks.setStore(context).initialFetch(payload.address);
