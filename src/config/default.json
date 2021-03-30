@@ -1,22 +1,20 @@
 {
 	"peersApi": {
-		"defaultNode": "http://20.71.180.252:3000",
+		"defaultNode": "http://20.52.130.19:3000",
 		"nodes": [
-			"http://20.71.180.252:3000",
-			"http://51.136.62.187:3000"
-
-
+			"http://20.52.130.19:3000",
+			"http://20.52.131.211:3000"
 		]
 	},
 	"apiNodePort": 3000,
 	"endpoints": {
 		"marketData": "https://min-api.cryptocompare.com/",
 		"statisticsService": "",
-		"nodeRewardsController": "http://34.252.126.146:7890"
+		"nodeRewardsController": "http://20.52.131.211:7890"
 	},
 	"networkConfig": {
 		"namespaceName": "gcr.currency",
-		"mosaicId": "067FAE202D44AC71",
+		"mosaicId": "41AB747DEF2694ED",
 		"namespaceId": "",
 		"divisibility": "6",
 		"networkIdentifier": 0
