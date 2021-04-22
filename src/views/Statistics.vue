@@ -40,7 +40,6 @@
 				<NodeHeightStatsWidget style="width: 100%" type="finalizedHeight" />
 			</b-col>
 			<b-col xs="12" md="12" style="display: flex">
-				<ChartNodeCount style="width: 100%" />
 			</b-col>
 		</b-row>
 	</b-container>
@@ -51,7 +50,6 @@ import NetworkRentalFeesWidget from '@/components/widgets/NetworkRentalFeesWidge
 import ChartBlockTimeDifference from '@/components/widgets/ChartBlockTimeDifference.vue';
 import ChartTransactionPerBlock from '@/components/widgets/ChartTransactionPerBlock.vue';
 import NodeHeightStatsWidget from '@/components/widgets/NodeHeightStatsWidget.vue';
-import ChartNodeCount from '@/components/widgets/ChartNodeCount.vue';
 
 export default {
 	name: 'Statistics',
@@ -60,8 +58,7 @@ export default {
 		NetworkRentalFeesWidget,
 		ChartBlockTimeDifference,
 		ChartTransactionPerBlock,
-		NodeHeightStatsWidget,
-		ChartNodeCount
+		NodeHeightStatsWidget
 	},
 	mounted() {
 		this.$store.dispatch('initialize', this.$route);
