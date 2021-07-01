@@ -19,36 +19,36 @@ The explorer supports searching for transactions, accounts, namespaces, tokens, 
 **Node.js 8, 9 or 10** is required to run GCR Explorer as a web application.
 It is recommended to install **npm**, the Node.js package manager. This can be done by executing the following command:
 
-   ```
+```
 sudo apt install npm
-   ```
+```
 ***
 ## Building instructions 🛠️
 
 1. Clone the project.
 
 
-    ```
+ ```
 git clone https://github.com/superhow/gcr-explorer.git
-    ```
+ ```
 
 2. Navigate to the project folder.
 
-    ```
+ ```
 cd gcr-explorer
-    ```
+ ```
 	
 3. Install the dependencies. This may take a while.
 
-    ```
+ ```
 npm install 
-    ```
+ ```
 
 4. Start the development server.
 
-    ```
+ ```
 npm run dev 
-    ```
+ ```
 
 5. Visit http://localhost:8080/#/ in your browser.
 ***

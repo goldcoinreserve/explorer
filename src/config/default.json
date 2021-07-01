@@ -1,10 +1,11 @@
 {
 	"peersApi": {
-		"defaultNode": "http://20.52.130.19:3000",
+		"defaultNode": "http://20.79.16.203:3000/",
 		"nodes": [
-			"http://20.52.130.19:3000",
-			"http://20.52.131.211:3000"
-		]
+			"http://20.79.16.203:3000",
+			"http://20.79.16.206:3000",
+			"http://20.79.16.207:3000"
+			]
 	},
 	"apiNodePort": 3000,
 	"endpoints": {
@@ -14,7 +15,7 @@
 	},
 	"networkConfig": {
 		"namespaceName": "gcr.currency",
-		"mosaicId": "41AB747DEF2694ED",
+		"mosaicId": "6CAF5BAFEBF0256C",
 		"namespaceId": "",
 		"divisibility": "6",
 		"networkIdentifier": 0

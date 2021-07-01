@@ -91,5 +91,3 @@ export default {
     fill: var(--secondary);
 }
 </style>
-
-
