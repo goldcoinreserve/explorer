@@ -29,13 +29,13 @@ sudo apt install npm
 
 
  ```
-git clone https://github.com/superhow/gcr-explorer.git
+git clone https://github.com/goldcoinreserve/explorer.git
  ```
 
 2. Navigate to the project folder.
 
  ```
-cd gcr-explorer
+cd explorer
  ```
 	
 3. Install the dependencies. This may take a while.
