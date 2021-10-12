@@ -127,14 +127,14 @@ class TransactionService {
    * @param hash Transaction hash
    * @returns Custom Transaction object
    */
-  static getTransactionInfo = async (hash, transactionGroup = TransactionGroup.Confirmed) => {
-	  const [transaction, transactionStatus] = await Promise.all([
-  		this.getTransaction(hash, transactionGroup).catch((error) => {
+  static getTransactionInfo = async (hash) => {
+  	const transactionStatus = await this.getTransactionStatus(hash);
+  	const transactionGroup = transactionStatus.message;
+  	const transaction = await this.getTransaction(hash, transactionGroup)
+  		.catch((error) => {
   			if (error)
   				return false;
-  		}),
-  		this.getTransactionStatus(hash)
-	  ]);
+  		});
 
 	  if (!transaction) {
   		const transactionErrorInfo = {
@@ -146,19 +146,21 @@ class TransactionService {
   		return transactionErrorInfo;
 	  }
 
-  	const [{ date }, effectiveFee] = await Promise.all([
-		  BlockService.getBlockInfo(UInt64.fromUint(transaction.transactionInfo.height)),
+  	const [{ timestamp }, effectiveFee] = await Promise.all([
+		  BlockService.getBlockInfo(UInt64.fromUint(transaction.transactionInfo.height))
+		  	.catch(() => ({ timestamp: null })),
 		  this.getTransactionEffectiveFee(hash)
+		  	.catch(() => null)
 	  ]);
 
   	const formattedTransaction = await this.createTransactionFromSDK(transaction);
 
   	const transactionInfo = {
 		  ...formattedTransaction,
-		  blockHeight: formattedTransaction.transactionInfo.height,
+		  blockHeight: formattedTransaction.transactionInfo.height || undefined,
 		  transactionHash: formattedTransaction.transactionInfo.hash,
 		  effectiveFee,
-		  date,
+		  timestamp,
 		  status: transactionStatus.detail.code,
 		  confirm: transactionStatus.message
   	};
@@ -213,10 +215,30 @@ class TransactionService {
   			return (transaction.transactionBody.recipient = await helper.resolvedAddress(transaction.recipientAddress));
   	}));
 
+  	if (searchCriteria.group === TransactionGroup.Partial || searchCriteria.group === TransactionGroup.Unconfirmed) {
+  		return {
+  			...transactions,
+  			data: transactions.data.map(transaction => ({
+  				...transaction,
+  				transactionHash: transaction.transactionInfo.hash,
+  				transactionType: transaction.type,
+  				recipient: transaction.transactionBody?.recipient,
+  				extendGraphicValue: this.extendGraphicValue(transaction)
+  			}))
+  		};
+  	}
+
+  	const blocksHeight = [...new Set(transactions.data.map(data => data.transactionInfo.height))];
+
+  	const blockInfos = await Promise.all(
+  		blocksHeight.map(height => BlockService.getBlockInfo(height))
+  	);
+
   	return {
   		...transactions,
-  		data: transactions.data.map(transaction => ({
+  		data: transactions.data.map(({ deadline, ...transaction }) => ({
   			...transaction,
+  			timestamp: blockInfos.find(block => block.height === transaction.transactionInfo.height).timestamp,
   			height: transaction.transactionInfo.height,
   			transactionHash: transaction.transactionInfo.hash,
   			transactionType: transaction.type,

@@ -17,26 +17,31 @@
  */
 
 <template>
-	<b-col sm="12" lg="4">
-	</b-col>
+	<div class="harvester-container">
+		<span :title="title" >
+			<router-link :to="getItemHref('accounts', value.linkedAddress)">
+				<b class="link">{{ value.signer }}</b>
+			</router-link>
+		</span>
+	</div>
 </template>
 
-<style lang="scss" scoped>
-.footer .ft-desc p {
-    font-size: 12px;
-    text-align: justify;
-    color: #ffffffa8;
-    font-weight: 200;
-}
+<script>
+import TableView from '@/components/tables/TableView.vue';
 
-.footer .ft-logo a {
-    height: 30px;
-    display: inline-block;
-}
-
-.footer .ft-logo a img {
-    width: auto;
-    max-width: 100%;
-    max-height: 100%;
-}
-</style>
+export default {
+	name: 'Harvester',
+	extends: TableView,
+	props: {
+		value: Object
+	},
+	computed: {
+		title() {
+			return this.getKeyName('remote') +
+			': ' + this.value.signer +
+			'\n' + this.getKeyName('main') +
+			': ' + this.value.linkedAddress;
+		}
+	}
+};
+</script>

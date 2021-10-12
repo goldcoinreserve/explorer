@@ -17,7 +17,7 @@
  */
 
 import { UInt64, TransactionGroup, Order, BlockOrderBy, BlockType } from 'symbol-sdk';
-import { TransactionService, ReceiptService } from '../infrastructure';
+import { TransactionService, ReceiptService, AccountService } from '../infrastructure';
 import http from './http';
 import helper from '../helper';
 import { Constants } from '../config';
@@ -129,14 +129,24 @@ class BlockService {
 
   	const blocks = await this.searchBlocks(blockSearchCriteria);
 
+  	const signerAddress = blocks.data.map(block => block.signer);
+
+  	const accountInfos = await AccountService.getAccounts(signerAddress);
+
   	return {
   		...blocks,
-  		data: blocks.data.map(block => ({
-  			...block,
-  			date: helper.convertToUTCDate(block.timestamp),
-  			age: helper.convertToUTCDate(block.timestamp),
-  			harvester: block.signer
-  		}))
+  		data: blocks.data.map(block => {
+  			const { supplementalPublicKeys } = accountInfos.find(account => account.address === block.signer);
+
+  			return {
+  				...block,
+  				age: helper.convertToUTCDate(block.timestamp),
+  				harvester: {
+  					signer: block.signer,
+  					linkedAddress: supplementalPublicKeys.linked === Constants.Message.UNAVAILABLE ? block.signer : helper.publicKeyToAddress(supplementalPublicKeys.linked)
+				  }
+  			};
+  		})
   	};
   }
 
@@ -159,7 +169,10 @@ class BlockService {
   		...filterVaule
 	  };
 
-  	const searchTransactions = await TransactionService.searchTransactions(searchCriteria);
+  	const [blockInfo, searchTransactions] = await Promise.all([
+  		BlockService.getBlockInfo(height),
+  		TransactionService.searchTransactions(searchCriteria)
+  	]);
 
   	const blockTransactions = {
   		...searchTransactions,
@@ -170,6 +183,7 @@ class BlockService {
   		...blockTransactions,
   		data: blockTransactions.data.map(blockTransaction => ({
   			...blockTransaction,
+  			timestamp: blockInfo.timestamp,
   			transactionHash: blockTransaction.transactionInfo.hash,
   			transactionType: blockTransaction.type
   		}))
@@ -202,6 +216,8 @@ class BlockService {
   static getBlockInfo = async height => {
   	const block = await this.getBlockByHeight(height);
 
+  	const { supplementalPublicKeys } = await AccountService.getAccount(block.signer);
+
   	// Get merkle info
   	let { stateHash, stateHashSubCacheMerkleRoots, blockReceiptsHash, blockTransactionsHash } = block;
 
@@ -222,10 +238,13 @@ class BlockService {
   	return {
   		...block,
   		...importanceBlockInfo,
+  		symbolTime: block.timestamp,
   		payloadSize: block.size,
   		blockHash: block.hash,
-  		harvester: block.signer,
-  		date: helper.convertToUTCDate(block.timestamp),
+  		harvester: {
+  			signer: block.signer,
+  			linkedAddress: supplementalPublicKeys.linked === Constants.Message.UNAVAILABLE ? block.signer : helper.publicKeyToAddress(supplementalPublicKeys.linked)
+  		},
   		merkleInfo: {
   			stateHash,
   			stateHashSubCacheMerkleRoots,

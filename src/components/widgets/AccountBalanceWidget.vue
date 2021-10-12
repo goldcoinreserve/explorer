@@ -95,7 +95,7 @@ export default {
 		},
 
 		mosaicName() {
-			return this.data.mosaicName || 'Balance:';
+      return this.data.mosaicName || 'Balance:';
 		},
 
 		loading() {

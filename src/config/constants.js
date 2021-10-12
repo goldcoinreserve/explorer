@@ -27,7 +27,7 @@ class Constants {
 		UNLIMITED: 'UNLIMITED',
 		UNAVAILABLE: 'N/A',
 		INFINITY: 'INFINITY',
-		MOSAIC: 'TOKEN',
+    MOSAIC: 'TOKEN',
 		ADDRESS: 'ADDRESS',
 		NO_ALIAS: 'NO ALIAS',
 		ACTIVE: 'ACTIVE',
@@ -40,7 +40,7 @@ class Constants {
 		[TransactionType.TRANSFER]: 'Transfer',
 		[TransactionType.NAMESPACE_REGISTRATION]: 'Namespace Registration',
 		[TransactionType.ADDRESS_ALIAS]: 'Address Alias',
-		[TransactionType.MOSAIC_ALIAS]: 'Token Alias',
+    [TransactionType.MOSAIC_ALIAS]: 'Token Alias',
     [TransactionType.MOSAIC_DEFINITION]: 'Token Definition',
     [TransactionType.MOSAIC_SUPPLY_CHANGE]: 'Token Supply Change',
 		[TransactionType.MULTISIG_ACCOUNT_MODIFICATION]: 'Multisig Account Modification',
@@ -111,7 +111,7 @@ class Constants {
 	}
 
 	static ReceiptType = {
-		[ReceiptType.Harvest_Fee]: 'Staking Fee',
+    [ReceiptType.Harvest_Fee]: 'Staking Fee',
 		[ReceiptType.LockHash_Created]: 'LockHash Created',
 		[ReceiptType.LockHash_Completed]: 'LockHash Completed',
 		[ReceiptType.LockHash_Expired]: 'LockHash Expired',
@@ -121,7 +121,7 @@ class Constants {
     [ReceiptType.Mosaic_Levy]: 'Token Levy',
     [ReceiptType.Mosaic_Rental_Fee]: 'Token Rental Fee',
 		[ReceiptType.Namespace_Rental_Fee]: 'Namespace Rental Fee',
-		[ReceiptType.Mosaic_Expired]: 'Token Expired',
+    [ReceiptType.Mosaic_Expired]: 'Token Expired',
 		[ReceiptType.Namespace_Expired]: 'Namespace Expired',
 		[ReceiptType.Namespace_Deleted]: 'Namespace Deleted',
 		[ReceiptType.Inflation]: 'Inflation'

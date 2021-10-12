@@ -76,46 +76,61 @@ export default {
     border-top: 1px solid rgba(255, 255, 255, 0.5);
     padding: 0 60px;
     position: relative;
+
     .width-limiter {
-        display: block;
-        width: 100%;
-        max-width: $navmenu-max-width;
-        margin-left: auto;
-        margin-right: auto;
+      display: block;
+      width: 100%;
+      max-width: $navmenu-max-width;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .menu-logo {
-        width: 30px;
-        margin-right: 15px;
+      width: 30px;
+      margin-right: 15px;
     }
 
     .ex-menu-item {
-        padding: 0 20px;
-        color: var(--light);
-        text-decoration: none;
-        letter-spacing: 1px;
-        position: relative;
-        transition: all 0.2s ease-in-out;
-        width: auto;
-        display: inline-block;
-        font-size: 13px;
-        line-height: 40px;
+      padding: 0 20px;
+      color: var(--light);
+      text-decoration: none;
+      letter-spacing: 1px;
+      position: relative;
+      transition: all 0.1s ease-in-out;
+      width: auto;
+      display: inline-block;
+      font-size: 13px;
+      line-height: 40px;
+      font-weight: 600;
+      opacity: 0.8;
 
-        .menu-icon {
-            margin-right: 10px;
-        }
+      .menu-icon {
+        margin-right: 10px;
+      }
+    }
+
+    .ex-menu-item.active {
+      color: var(--light);
+      font-weight: 600;
+      opacity: 1;
+    }
+
+    .ex-menu-item::before {
+      opacity: 0;
+      content: '';
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--light);
+      transition: all 0.2s ease-in-out;
     }
 
     .ex-menu-item.active::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        width: 100%;
-        height: 3px;
-        background: var(--light);
-        transition: all 0.2s ease-in-out;
+      opacity: 1;
     }
-}
+  }
+
 
 .ex-menu-fixed {
     position: fixed;
