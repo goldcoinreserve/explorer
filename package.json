@@ -1,7 +1,7 @@
 {
   "name": "gcr-explorer",
   "description": "GCR Block and Network Explorer",
-  "homepage": "https://github.com/nemgrouplimited/symbol-explorer",
+  "homepage": "https://github.com/goldcoinreserve/explorer",
   "version": "1.1.0",
   "scripts": {
     "dev": "vue-cli-service serve",
